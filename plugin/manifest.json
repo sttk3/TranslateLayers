@@ -1,0 +1,34 @@
+{
+  "id": "75b8cce2",
+  "name": "TranslateLayers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "manifestVersion": 4,
+  "host": {
+    "app": "PS",
+    "minVersion": "23.3.0"
+  },
+  "icons": [
+    {
+      "width": 48, "height": 48, "path": "images/plugin.png", "scale": [ 1, 2 ],
+      "theme": [ "darkest", "dark", "medium", "lightest", "light", "all" ],
+      "species": [ "pluginList" ]
+    }
+  ],
+  "entrypoints": [
+    {
+      "type": "command",
+      "id": "translateDialog",
+      "label": {
+          "default": "Translate…"
+      }
+    }, 
+    {
+      "type": "command",
+      "id": "translateAgain",
+      "label": {
+          "default": "Translate Again"
+      }
+    }
+  ]
+}

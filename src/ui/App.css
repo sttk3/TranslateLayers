@@ -1,0 +1,35 @@
+.w100 {
+  width: 100% ;
+}
+
+.main {
+  display: flex ;
+  flex-direction: column ;
+
+  /* 上 | 右 | 下 | 左 */
+  /* padding: 12px 12px 12px 12px ; */
+}
+
+.h2 {
+  margin-top: -32px ;
+}
+
+.flex {
+  display: flex ;
+}
+
+.horizontal {
+  flex-direction: row ;
+}
+
+.horizontal-reverse {
+  flex-direction: row-reverse ;
+}
+
+.vertical {
+  flex-direction: column ;
+}
+
+.vertical-reverse {
+  flex-direction: column-reverse ;
+}

@@ -1,0 +1,18 @@
+.w100 {
+  width: 100% ;
+}
+
+.text-field-container {
+  display: flex ;
+  flex-direction: row ;
+  justify-content: end ;
+  align-items: center ;
+}
+
+.text-field {
+  max-width: 120px ;
+}
+
+.label-small + .text-field {
+  margin-left: -24px ;
+}

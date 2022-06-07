@@ -1,0 +1,25 @@
+{
+  "name": "com.sttk3.ps.translate.layers",
+  "version": "1.0.0",
+  "scripts": {
+    "watch": "webpack -w --mode development",
+    "build": "webpack --mode development"
+  },
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.2.0",
+    "file-loader": "^6.2.0",
+    "style-loader": "^3.2.1",
+    "webpack": "^5.47.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "mathjs": "^10.6.0",
+    "preact": "^10.2.1"
+  }
+}
