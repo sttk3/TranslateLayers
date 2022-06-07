@@ -1,5 +1,5 @@
 const { h } = require('preact') ;
-const { useEffect, useReducer } = require('preact/hooks') ;
+const { useEffect, useReducer, useRef } = require('preact/hooks') ;
 const { Spacer } = require('./Spacer.jsx') ;
 const { EditField } = require('./EditField.jsx') ;
 const { ActionType, calc, storeData, returnData, reducer, UnitText } = require('./reducer.jsx') ;
@@ -105,6 +105,7 @@ const App = (props) => {
     currentY: settings.currentY.defaultValue, 
   } ;
 
+  const focusRef = useRef(null) ;
   const [state, dispatch] = useReducer(reducer, defaultState) ;
 
   // W H X Yの表示形式。見た目はCSSで変更できるが，tabでの移動順は構造通りなので現状photoshopだけしか使えない
@@ -127,8 +128,15 @@ const App = (props) => {
   useEffect(() => {
     Object.keys(defaultState).forEach((aKey) => {
       const currentObj = settings[aKey] ;
-      dispatch({ type: ActionType.updateView, payload: {keyName: aKey, value: currentObj.defaultValue, readOnly: currentObj.readOnly} })
+      dispatch({ type: ActionType.updateView, payload: {keyName: aKey, value: currentObj.defaultValue, readOnly: currentObj.readOnly} }) ;
     }) ;
+
+    /*
+      Windowsでは自動でテキストフィールドにフォーカスしないので自力でフォーカスを実行する。
+      しかし，focusRefやfocus functionを正しく認識しているように見えるものの動かない。
+      valueは取得できる
+    */
+    // focusRef.current.focus() ;
   }, []) ;
 
   const elementButtonCancel = (
@@ -179,7 +187,7 @@ const App = (props) => {
         <sp-heading size='XXS' className='h2' >Translate</sp-heading>
         <Spacer size={8} />
         <div id='area-dst' className={'flex horizontal'}>
-          <EditField keyName={settings.translateX.keyName} dstKey={settings.translateX.dstKey} label={settings.translateX.label} title={settings.translateX.title} quiet={settings.translateX.quiet} readOnly={settings.translateX.readOnly} dispatch={dispatch} state={state.translateX} />
+          <EditField keyName={settings.translateX.keyName} dstKey={settings.translateX.dstKey} label={settings.translateX.label} title={settings.translateX.title} quiet={settings.translateX.quiet} readOnly={settings.translateX.readOnly} dispatch={dispatch} state={state.translateX} focusRef={focusRef} />
           <Spacer size={24} />
           <EditField keyName={settings.translateY.keyName} dstKey={settings.translateY.dstKey} label={settings.translateY.label} title={settings.translateY.title} quiet={settings.translateY.quiet} readOnly={settings.translateY.readOnly} dispatch={dispatch} state={state.translateY} />
         </div>

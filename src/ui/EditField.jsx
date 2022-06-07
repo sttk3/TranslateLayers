@@ -10,6 +10,7 @@ require('./EditField.css') ;
   * @param {String} keyName stateの中で自分を示す識別子。translateXなど
   * @param {String} dstKey globalDataStoreの中で自分を示す識別子。xなど
   * @param {Object} state 親のstate
+  * @param {Element} [focusRef] テキストフィールドへの参照。なければローカルで生成
   * @param {String} [label] テキストフィールドにつけるラベル
   * @param {Boolean} [quiet] 見た目をquietにするかどうか。trueでquiet
   * @param {Boolean} [readOnly] 値の変更を禁止するどうか。trueで禁止
@@ -22,14 +23,12 @@ const EditField = (props) => {
     keyName, 
     dstKey, 
     state, 
+    focusRef = useRef(null), 
     label, 
     quiet = false, 
     readOnly = false, 
     title = label, 
   } = props ;
-
-  // テキストフィールドの参照。ラベルをタップしたときフォーカスするのに使う
-  const textFieldRef = useRef(null) ;
 
   return (
     <div className='text-field-container w100'>
@@ -37,14 +36,14 @@ const EditField = (props) => {
         <sp-label
           className='label-small'
           slot='label'
-          onClick={() => {textFieldRef.current.focus() ;}}
+          onClick={() => {focusRef.current.focus() ;}} // ラベルをタップしたときフォーカスする
         >
           {label}
         </sp-label>
       ) }
       <sp-textfield
         className='text-field w100'
-        ref={textFieldRef}
+        ref={focusRef}
         title={title}
         quiet={quiet}
         value={state.displayValue}
