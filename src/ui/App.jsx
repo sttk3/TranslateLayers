@@ -1,3 +1,9 @@
+/**
+  * @file ダイアログの構造
+  * @author sttk3.com
+  * @copyright © 2022 sttk3.com
+*/
+
 const { h } = require('preact') ;
 const { useEffect, useReducer, useRef } = require('preact/hooks') ;
 const { Spacer } = require('./Spacer.jsx') ;
@@ -131,12 +137,11 @@ const App = (props) => {
       dispatch({ type: ActionType.updateView, payload: {keyName: aKey, value: currentObj.defaultValue, readOnly: currentObj.readOnly} }) ;
     }) ;
 
-    /*
-      Windowsでは自動でテキストフィールドにフォーカスしないので自力でフォーカスを実行する。
-      しかし，focusRefやfocus functionを正しく認識しているように見えるものの動かない。
-      valueは取得できる
-    */
-    // focusRef.current.focus() ;
+    // Windowsでは自動でテキストフィールドにフォーカスしないので自力でフォーカスを実行する。
+    // タイミングが早すぎると実行されないので少し遅らせる
+    if(!isMac) {
+      setTimeout(() => {focusRef.current.focus() ;}, 300) ;
+    }
   }, []) ;
 
   const elementButtonCancel = (
