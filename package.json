@@ -1,6 +1,6 @@
 {
   "name": "com.sttk3.ps.translate.layers",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "watch": "webpack -w --mode development",
     "build": "webpack --mode development"

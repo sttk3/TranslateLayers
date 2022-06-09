@@ -1,6 +1,6 @@
 /**
   * @file ダイアログで指定した距離で選択レイヤーを移動する
-  * @version 1.0.0
+  * @version 1.1.0
   * @author sttk3.com
   * @copyright © 2022 sttk3.com
 */
