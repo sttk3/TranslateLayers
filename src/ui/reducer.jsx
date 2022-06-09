@@ -1,3 +1,9 @@
+/**
+  * @file reducer
+  * @author sttk3.com
+  * @copyright © 2022 sttk3.com
+*/
+
 const { h } = require('preact') ;
 const { math } = require('../core/calc.js') ;
 
@@ -12,11 +18,6 @@ const UnitText = (displayValue, pixelValue) => {
     displayValue, 
     pixelValue, 
   } ;
-} ;
-
-// dispatchで使うアクションの識別子
-const ActionType = {
-  updateView: 'MoveDialog.updateView', 
 } ;
 
 /**
@@ -122,6 +123,12 @@ const handleOnChange = (value, oldState, readOnly) => {
   return dstObject ;
 } ;
 
+// dispatchで使うアクションの識別子
+const ActionType = {
+  updateView: 'TranslateDialog.updateView', 
+  arrowIncrement: 'TranslateDialog.arrowIncrement', 
+} ;
+
 /**
   * stateはすべてこれを通じて操作する
 */
@@ -134,6 +141,30 @@ const reducer = (state, action) => {
     case ActionType.updateView:
       tempState[action.payload.keyName] = handleOnChange(action.payload.value, tempState[action.payload.keyName], action.payload.readOnly) ;
       newState = tempState ;
+      break ;
+    case ActionType.arrowIncrement:
+      // 追加量を指定する
+      let addition = 1 ;
+      if(action.payload.keyState.shiftKey) {addition = 10 ;}
+      let inverter = 1 ;
+      if(action.payload.keyState.key === 'ArrowDown') {inverter = -1 ;}
+
+      // 通常通りテキストフィールドの値を計算する
+      const srcValue = handleOnChange(action.payload.value, tempState[action.payload.keyName], false) ;
+
+      // もとの値を小数点以下4桁で四捨五入する。0.99999999とかになっていると数値が動かなくなる
+      const srcNumber = Number(srcValue.pixelValue.toFixed(4)) ;
+
+      // 新しい値を算出する。shiftを押しているときは10ごとにキリのいい数値するため，桁を下げてからfloorを適用する
+      const dstNumber = (Math.floor(srcNumber / addition) * addition) + (addition * inverter) ;
+
+      // 追加量に合わせて再計算する
+      const dstValue = handleOnChange(dstNumber.toString(), tempState[action.payload.keyName], false) ;
+      tempState[action.payload.keyName] = dstValue ;
+      newState = tempState ;
+
+      // 移動距離記録場所にセットする
+      storeData(action.payload.dstKey, dstValue.pixelValue) ;
       break ;
     default: 
       // skip

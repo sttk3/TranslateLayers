@@ -1,3 +1,9 @@
+/**
+  * @file 計算機能つきテキストフィールド
+  * @author sttk3.com
+  * @copyright © 2022 sttk3.com
+*/
+
 const { h } = require('preact') ;
 const { useRef } = require('preact/hooks') ;
 
@@ -49,6 +55,15 @@ const EditField = (props) => {
         value={state.displayValue}
         onChange={ (event) => { dispatch({ type: ActionType.updateView, payload: {keyName, value: event.target.value, readOnly} }) } }
         onInput={ (event) => { storeData(dstKey, event.target.value) ;} }
+        onKeyDown={ (event) => {
+          event.preventDefault() ;
+          if(readOnly) {return ;}
+
+          const eventKey = event.key ;
+          if(!['ArrowUp', 'ArrowDown'].includes(eventKey)) {return ;}
+          const keyState = {key: eventKey, shiftKey: event.shiftKey} ;
+          dispatch({ type: ActionType.arrowIncrement, payload: {keyName, dstKey, value: event.target.value, keyState} }) ;
+        } }
       >
       </sp-textfield>
     </div>
