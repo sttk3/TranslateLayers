@@ -29,6 +29,7 @@ const descSelectLayer = (targetLayers) => {
   let layers ;
   switch(targetLayers.constructor.name) {
     case 'Layer':
+    case 'Layer_Layer':
       layers = [targetLayers] ;
       break ;
     case 'Array':
