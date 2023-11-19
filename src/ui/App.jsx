@@ -4,16 +4,16 @@
   * @copyright © 2022 sttk3.com
 */
 
-const { h } = require('preact') ;
-const { useEffect, useReducer, useRef } = require('preact/hooks') ;
-const { Spacer } = require('./Spacer.jsx') ;
-const { EditField } = require('./EditField.jsx') ;
-const { ActionType, calc, storeData, returnData, reducer, UnitText } = require('./reducer.jsx') ;
+import { h } from 'preact' ;
+import { useEffect, useReducer, useRef } from 'preact/hooks' ;
+import { Spacer } from './Spacer.jsx' ;
+import { EditField } from './EditField.jsx' ;
+import { ActionType, calc, storeData, returnData, reducer, UnitText } from './reducer.jsx' ;
 
-const os = require('os') ;
+import os from 'os' ;
 const isMac = /darwin/.test(os.platform()) ;
 
-const App = (props) => {
+export const App = (props) => {
   const { bounds, dialog } = props ;
 
   // 入力画面で使える定数
@@ -137,11 +137,12 @@ const App = (props) => {
       dispatch({ type: ActionType.updateView, payload: {keyName: aKey, value: currentObj.defaultValue, readOnly: currentObj.readOnly} }) ;
     }) ;
 
-    // Windowsでは自動でテキストフィールドにフォーカスしないので自力でフォーカスを実行する。
-    // タイミングが早すぎると実行されないので少し遅らせる
-    if(!isMac) {
-      setTimeout(() => {focusRef.current.focus() ;}, 300) ;
-    }
+    /*
+      自動でテキストフィールドにフォーカスしないので自力でフォーカスを実行する。
+      タイミングが早すぎると実行されないので少し遅らせる。
+      当初はWindowsのみに必要だったが、いつの間にかmacOSでも自動的にフォーカスされなくなり、両方で実行が必要
+    */
+    setTimeout(() => {focusRef.current.focus() ;}, 300) ;
   }, []) ;
 
   const elementButtonCancel = (
@@ -241,8 +242,4 @@ const App = (props) => {
       </footer>
     </form>
   ) ;
-} ;
-
-module.exports = {
-  App
 } ;
