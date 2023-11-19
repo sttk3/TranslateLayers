@@ -1,9 +1,9 @@
 {
   "name": "com.sttk3.ps.translate.layers",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "scripts": {
-    "watch": "webpack -w --mode development",
-    "build": "webpack --mode development"
+    "watch": "NODE_ENV=development webpack -w",
+    "build": "NODE_ENV=production webpack"
   },
   "license": "MIT",
   "private": true,
@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "mathjs": "^10.6.0",
-    "preact": "^10.2.1"
+    "preact": "^10.18.1"
   }
 }
