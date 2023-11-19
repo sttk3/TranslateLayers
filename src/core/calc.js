@@ -4,8 +4,8 @@
   * @copyright © 2022 sttk3.com
 */
 
-const { create, all } = require('mathjs') ;
-const math = create(all) ;
+import { create, all } from 'mathjs' ;
+export const math = create(all) ;
 
 // 単位
 
@@ -36,7 +36,3 @@ math.import({
   aaa
 }) ;
 */
-
-module.exports = {
-  math
-} ;

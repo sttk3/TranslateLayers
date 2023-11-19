@@ -4,15 +4,27 @@
   * @copyright © 2022 sttk3.com
 */
 
-const uiLocale = require('uxp').host.uiLocale ;
+import { host } from 'uxp' ;
+const uiLocale = host.uiLocale ;
+const appVersion = host.version.split('.').map((str) => {return parseInt(str, 10)}) ;
 
-const HistoryName = {
+/**
+  * アクションの記録機能が使えるバージョンかどうか
+*/
+export const ActionRecordingEnabled = (appVersion[0] >= 25) ;
+
+/**
+  * 記録したアクション実行に使うfunction名
+*/
+export const ActionHandlerName = 'actionHandler' ;
+
+export const HistoryName = {
   TRANSLATE: 'Translate', 
   TRANSLATE_AGAIN: 'Translate Again', 
 } ;
 
 // 行揃え
-const Justification = {
+export const Justification = {
   LEFT: 'left',
   CENTER: 'center',
   RIGHT: 'right',
@@ -27,7 +39,7 @@ const Justification = {
   Layer.kindで直接扱うLayerKindは次のように読み込めば使用可能
   const { LayerKind } = photoshop.constants ;
 */
-const LayerKind = {
+export const LayerKind = {
   ANY: 0,
   PIXEL: 1,
   ADJUSTMENT: 2,
@@ -45,7 +57,7 @@ const LayerKind = {
 } ;
 
 // ユーザーへのメッセージ
-let Messages ;
+export let Messages ;
 if(uiLocale === 'ja_JP') {
   Messages = {
     NOTHING_HAPPENED: `結果：\n\n何も起こりませんでした。`,
@@ -61,7 +73,7 @@ if(uiLocale === 'ja_JP') {
 }
 
 // 整列オプション
-const PsAlignOptions = {
+export const PsAlignOptions = {
   LEFT_EDGES: 'ADSLefts',
   HORIZONTAL_CENTERS: 'ADSCentersH',
   RIGHT_EDGES: 'ADSRights',
@@ -72,13 +84,13 @@ const PsAlignOptions = {
 } ;
 
 // 分布オプション
-const PsDistributeOptions = {
+export const PsDistributeOptions = {
   HORIZONTAL_SPACE: 'ADSDistH',
   VERTICAL_SPACE: 'ADSDistV',
 } ;
 
 // Undoに表示されるメニュー名
-const PsAlignLabels = {
+export const PsAlignLabels = {
   'ADSLefts': 'Align Left Edges',
   'ADSCentersH': 'Align Horizontal Centers',
   'ADSRights': 'Align Right Edges',
@@ -92,25 +104,13 @@ const PsAlignLabels = {
 } ;
 
 // Photoshopのテキストフレームの種類。textKey.textShape.char._value
-const TextFrameType = {
+export const TextFrameType = {
   POINT: 'paint',
   AREA: 'box',
 } ;
 
 // Photoshopの横組み/縦組み。textKey.orientation._value
-const TextOrientation = {
+export const TextOrientation = {
   HORIZONTAL: 'horizontal',
   VERTICAL: 'vertical',
-} ;
-
-module.exports = {
-  HistoryName,
-  Justification,
-  LayerKind,
-  Messages,
-  PsAlignOptions,
-  PsDistributeOptions,
-  PsAlignLabels,
-  TextFrameType,
-  TextOrientation,
 } ;

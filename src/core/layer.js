@@ -4,17 +4,18 @@
   * @copyright © 2022 sttk3.com
 */
 
-const photoshop = require('photoshop') ;
+import photoshop from 'photoshop' ;
 const { batchPlay } = photoshop.action ;
+const { Layer } = photoshop.app ;
 
-const { descDeselectLayer, descSelectLayer } = require('./select.js') ;
+import { descDeselectLayer, descSelectLayer } from './select.js' ;
 
 /**
   * 対象レイヤー全体でのboundsを取得する
   * @param {LayerCache[]} targetLayerCaches 対象のLayerCacheの配列
-  * @return {Object} {left: Number, top: Number, right: Number, bottom: Number, width: Number, height: Number}
+  * @return {Promise<{left: number, top: number, right: number, bottom: number, width: number, height: number}>}
 */
-const getBounds = async (targetLayerCaches) => {
+export const getBounds = async (targetLayerCaches) => {
   let { left, top, right, bottom } = targetLayerCaches[0].ref.boundsNoEffects ;
   targetLayerCaches.forEach((aLayer) => {
     const bounds = aLayer.ref.boundsNoEffects ;
@@ -29,10 +30,10 @@ const getBounds = async (targetLayerCaches) => {
 
 /**
   * 対象レイヤーを選択する
-  * @param {Layer[]} targetLayers 対象のlayerの配列
-  * @return {}
+  * @param {Array<Layer>} targetLayers 対象のlayerの配列
+  * @return {Promise<void>}
 */
-const setSelection = async (targetLayers) => {
+export const setSelection = async (targetLayers) => {
   if(targetLayers == null || targetLayers.length <= 0) {return ;}
   await batchPlay([descSelectLayer(targetLayers)], {}) ;
 } ;
@@ -43,9 +44,9 @@ const setSelection = async (targetLayers) => {
   * @param {Layer} targetLayer 対象のlayer
   * @param {Number | Object} x 横移動距離。数値の場合はpx単位，{_unit: "percentUnit", _value: 100}のようなオブジェクトなら%
   * @param {Number | Object} y 縦移動距離。数値の場合はpx単位，{_unit: "percentUnit", _value: 100}のようなオブジェクトなら%
-  * @return {}
+  * @return {Promise<void>}
 */
-const translate = async (targetLayer, x = 0, y = 0) => {
+export const translate = async (targetLayer, x = 0, y = 0) => {
   if(x === 0 && y === 0) {return ;}
   
   let dstX ;
@@ -92,10 +93,4 @@ const translate = async (targetLayer, x = 0, y = 0) => {
 
     {}, 
   ) ;
-} ;
-
-module.exports = {
-  getBounds, 
-  setSelection, 
-  translate
 } ;

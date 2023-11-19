@@ -4,11 +4,11 @@
   * @copyright © 2022 sttk3.com
 */
 
-const { h } = require('preact') ;
-const { useRef } = require('preact/hooks') ;
+import { h } from 'preact' ;
+import { useRef } from 'preact/hooks' ;
 
-const { ActionType, storeData } = require('./reducer.jsx') ;
-require('./EditField.css') ;
+import { ActionType, storeData } from './reducer.jsx' ;
+import './EditField.css' ;
 
 /**
   * 計算機能付きテキストフィールド
@@ -23,7 +23,7 @@ require('./EditField.css') ;
   * @param {String} [title] テキストフィールドにつけるtitle。おもにtooltipとして使う
   * @return {Component} 
 */
-const EditField = (props) => {
+export const EditField = (props) => {
   const {
     dispatch, 
     keyName, 
@@ -68,8 +68,4 @@ const EditField = (props) => {
       </sp-textfield>
     </div>
   ) ;
-} ;
-
-module.exports = {
-  EditField
 } ;

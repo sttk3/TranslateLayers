@@ -4,11 +4,14 @@
   * @copyright © 2022 sttk3.com
 */
 
+import photoshop from 'photoshop' ;
+const { Layer } = photoshop.app ;
+
 /**
   * レイヤーの選択をなしにする動作のbatchPlay用オブジェクトを返す
-  * @return {object} 
+  * @return {any} 
 */
-const descDeselectLayer = () => {
+export const descDeselectLayer = () => {
   return {
     "_obj": "selectNoLayers",
     "_target": [
@@ -22,10 +25,10 @@ const descDeselectLayer = () => {
 
 /**
   * レイヤーを選択する動作のbatchPlay用オブジェクトを返す
-  * @param {layer[] | layer} targetLayers 対象のレイヤーの配列，またはレイヤーそのもの
-  * @return {object} 
+  * @param {Array<Layer> | Layer} targetLayers 対象のレイヤーの配列，またはレイヤーそのもの
+  * @return {any} 
 */
-const descSelectLayer = (targetLayers) => {
+export const descSelectLayer = (targetLayers) => {
   let layers ;
   switch(targetLayers.constructor.name) {
     case 'Layer':
@@ -39,7 +42,7 @@ const descSelectLayer = (targetLayers) => {
       throw new Error('Only layers or arrays are accepted as arguments') ;
   }
   
-  const ids = layers.map((aLayer) => {return aLayer._id ;}) ;
+  const ids = layers.map((aLayer) => {return aLayer.id ;}) ;
   return {
     "_obj": "select",
     "_target": [
@@ -55,9 +58,4 @@ const descSelectLayer = (targetLayers) => {
       "_value": "addToSelectionContinuous"
     },
   } ;
-} ;
-
-module.exports = {
-  descDeselectLayer, 
-  descSelectLayer
 } ;

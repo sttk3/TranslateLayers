@@ -4,8 +4,8 @@
   * @copyright © 2022 sttk3.com
 */
 
-const { h } = require('preact') ;
-const { math } = require('../core/calc.js') ;
+import { h } from 'preact' ;
+import { math } from '../core/calc.js' ;
 
 let globalDataStore = {
   x: 0, 
@@ -13,7 +13,7 @@ let globalDataStore = {
   sharedVariables: {}, 
 } ;
 
-const UnitText = (displayValue, pixelValue) => {
+export const UnitText = (displayValue, pixelValue) => {
   return {
     displayValue, 
     pixelValue, 
@@ -55,7 +55,7 @@ const toHankaku = (srcText) => {
   * @param {String} [baseUnit] 初期設定単位。省略時px
   * @return {UnitText} 
 */
-const calc = (srcText, baseUnit = 'px') => {
+export const calc = (srcText, baseUnit = 'px') => {
   let calculatedValue = math.evaluate(srcText, globalDataStore.sharedVariables) ;
   
   switch(calculatedValue.constructor.name) {
@@ -74,7 +74,7 @@ const calc = (srcText, baseUnit = 'px') => {
   return UnitText(`${newText} ${baseUnit}`, srcNumber) ;
 } ;
 
-const storeData = (dstKey, dstValue) => {
+export const storeData = (dstKey, dstValue) => {
   try {
     globalDataStore[dstKey] = dstValue ;
   } catch(e) {
@@ -82,7 +82,7 @@ const storeData = (dstKey, dstValue) => {
   }
 } ;
 
-const returnData = () => {
+export const returnData = () => {
   let x = 0 ;
   let y = 0 ;
 
@@ -124,7 +124,7 @@ const handleOnChange = (value, oldState, readOnly) => {
 } ;
 
 // dispatchで使うアクションの識別子
-const ActionType = {
+export const ActionType = {
   updateView: 'TranslateDialog.updateView', 
   arrowIncrement: 'TranslateDialog.arrowIncrement', 
 } ;
@@ -132,7 +132,7 @@ const ActionType = {
 /**
   * stateはすべてこれを通じて操作する
 */
-const reducer = (state, action) => {
+export const reducer = (state, action) => {
   // 現状のstateを複製する。直接編集してはいけない
   let tempState = JSON.parse(JSON.stringify(state)) ;
 
@@ -172,13 +172,4 @@ const reducer = (state, action) => {
   }
 
   return newState ;
-} ;
-
-module.exports = {
-  ActionType, 
-  calc, 
-  reducer, 
-  storeData, 
-  returnData, 
-  UnitText
 } ;

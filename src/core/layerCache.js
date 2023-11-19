@@ -4,14 +4,15 @@
   * @copyright © 2022 sttk3.com
 */
 
-const photoshop = require('photoshop') ;
+import photoshop from 'photoshop' ;
 const { batchPlay } = photoshop.action ;
 const { LayerKind } = photoshop.constants ;
+const { Layer } = photoshop.app ;
 
 /**
   * 対象のレイヤーの配列からグループを取り除き，グループの配下のレイヤーを追加する
-  * @param {Layer[]} targetLayers 対象のレイヤーの配列
-  * @return {Layer[]} 
+  * @param {Array<Layer>} targetLayers 対象のレイヤーの配列
+  * @return {Array<Layer>} 
 */
 const layersOf = (targetLayers) => {
   const res = [] ;
@@ -44,8 +45,8 @@ const layersOf = (targetLayers) => {
 
 /**
   * リンクされたレイヤーがあったら代表1つに絞り，新しい配列を作る
-  * @param {Layer[]} targetLayers 対象のレイヤーの配列
-  * @return {Layer[]} 
+  * @param {Array<Layer>} targetLayers 対象のレイヤーの配列
+  * @return {Array<Layer>} 
 */
 const unifyLinkedLayers = (targetLayers) => {
   const res = [] ;
@@ -71,11 +72,11 @@ const unifyLinkedLayers = (targetLayers) => {
 
 /**
   * レイヤーの情報を取得する
-  * @param {layer} targetLayer 対象のレイヤー
-  * @return {object} 
+  * @param {Layer} targetLayer 対象のレイヤー
+  * @return {Promise<any>} 
 */
 const getLayerInfo = async (targetLayer) => {
-  const layerID = targetLayer._id ;
+  const layerID = targetLayer.id ;
 
   const info = await batchPlay([
     {
@@ -100,22 +101,18 @@ const getLayerInfo = async (targetLayer) => {
 /**
   * レイヤーとbatchPlayで得られるレイヤー情報をセットにして配列にする
   * @param {Array} layers 対象のレイヤーの配列
-  * @return {Array} [{_id: Number, ref: Layer, info: Object}...]
+  * @return {Promise<Array<{id: number, ref: Layer, info: any}>>} 
 */
-const createLayerCaches = async (layers) => {
+export const createLayerCaches = async (layers) => {
   const targetLayers = unifyLinkedLayers(layersOf(layers)) ;
 
   const res = await Promise.all(targetLayers.map(async (aLayer) => {
     return {
-      _id: aLayer._id, 
+      id: aLayer.id, 
       ref: aLayer, 
       info: await getLayerInfo(aLayer), 
     } ;
   })) ;
 
   return res ;
-} ;
-
-module.exports = {
-  createLayerCaches
 } ;
