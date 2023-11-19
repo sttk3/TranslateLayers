@@ -1,6 +1,11 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
+let mode =
+ (process.env.NODE_ENV && process.env.NODE_ENV == "production")
+    ? "production"
+    : "development";
+
 module.exports = {
   entry: './src/index.jsx',
   output: {
@@ -8,7 +13,7 @@ module.exports = {
     filename: 'index.js',
     //libraryTarget: 'commonjs2', // when enabled, UXP Developer Tool always gives an error "module is not defined"
   },
-  devtool: 'eval-cheap-source-map', // won't work on XD due to lack of eval
+  devtool: (mode == "production") ? false : 'cheap-source-map', 
   externals: {
     uxp: 'commonjs2 uxp',
     photoshop: 'commonjs2 photoshop',
